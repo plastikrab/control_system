@@ -67,14 +67,7 @@ fun Login(){
         TextField(
             label = {
                 Text(
-                    text = "Введите логин",
-                    style = TextStyle(
-                        fontSize = 21.sp,
-                        fontFamily = interFamily,
-                        fontWeight = FontWeight(300),
-                        color = Color(0xFFBEC2C3)
-                    )
-                )
+                    text = "Введите логин")
             },
             value = login,
             onValueChange = {
@@ -90,8 +83,12 @@ fun Login(){
                     shape = RoundedCornerShape(size = 10.dp)
                 ),
             colors = TextFieldDefaults.textFieldColors(
-                containerColor = BG2Colour
-            )
+                containerColor = BG2Colour,
+                disabledLabelColor = BG2Colour,
+                unfocusedLabelColor = Color(0xFFBEC2C3)
+            ),
+            singleLine = true
+
 
         )
 
@@ -110,14 +107,7 @@ fun Login(){
         //Ввод пароля
         TextField(
             label = {
-                Text(text = "Введите пароль",
-                    style = TextStyle(
-                        fontSize = 21.sp,
-                        fontFamily = interFamily,
-                        fontWeight = FontWeight(300),
-                        color = Color(0xFFBEC2C3)
-                    )
-                )
+                Text(text = "Введите пароль")
             },
             value = password,
             onValueChange = {
@@ -135,8 +125,11 @@ fun Login(){
                     shape = RoundedCornerShape(size = 10.dp)
                 ),
             colors = TextFieldDefaults.textFieldColors(
-                containerColor = BG2Colour
-            )
+                containerColor = BG2Colour,
+                disabledLabelColor = BG2Colour,
+                unfocusedLabelColor = Color(0xFFBEC2C3)
+            ),
+            singleLine = true
         )
 
         //Забыли пароль
