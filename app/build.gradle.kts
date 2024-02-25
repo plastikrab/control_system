@@ -82,4 +82,11 @@ dependencies {
     //Google fonts
     implementation("androidx.compose.ui:ui-text-google-fonts:1.5.4")
 
+    //Retrofit
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    //Corutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
+
 }

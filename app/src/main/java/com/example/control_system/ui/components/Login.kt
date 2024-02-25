@@ -39,7 +39,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.control_system.R
-import com.example.control_system.logic.UserData
+import com.example.control_system.data.model.UserLogin
 import com.example.control_system.ui.theme.BG2Colour
 import com.example.control_system.ui.theme.BGColour
 import com.example.control_system.ui.theme.MainColour
@@ -57,18 +57,20 @@ fun Login(){
 
 
 
-    Column {
+    Column(
+
+    ) {
 
         //Ввод логина
         loginText(text = "Логин")
         loginTextField(text = "Введите логин"){
-            UserData.login = it
+            //UserData.login = it
         }
 
         //Ввод пароля
         loginText(text = "Пароль")
         loginTextField(text = "Введите пароль"){
-            UserData.password = it
+            //UserData.password = it
         }
 
 
@@ -193,8 +195,8 @@ fun enterButton(){
 
     Button(
         onClick = {
-            Log.d("MyLog", UserData.login)
-            Log.d("MyLog", UserData.password)
+            Log.d("MyLog", UserLogin.login)
+            Log.d("MyLog", UserLogin.)
         },
         modifier = Modifier
             .padding(top = 37.dp)
