@@ -17,4 +17,6 @@ val BG2Colour = Color(0xFFFFFFFF)
 val MainColour = Color(0xFF1C4069)
 val MainColour2 = Color(0xFF003066)
 
+val BordersColour = Color(0xFFBEC2C3)
+
 val ErrorColour = Color(0xFFB00020)
