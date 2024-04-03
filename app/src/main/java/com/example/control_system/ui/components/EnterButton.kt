@@ -19,10 +19,16 @@ import androidx.compose.ui.text.googlefonts.GoogleFont
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.control_system.R
+import com.example.control_system.data.model.UserData
 import com.example.control_system.data.model.UserLogin
 import com.example.control_system.data.objects.LoginDetails
+import com.example.control_system.network.AppContainer
+import com.example.control_system.network.DefaultAppContainer
 import com.example.control_system.ui.theme.BG2Colour
 import com.example.control_system.ui.theme.MainColour
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @Composable
 fun EnterButton(){
@@ -33,12 +39,16 @@ fun EnterButton(){
     )
     val interFont = GoogleFont("Inter")
     val interFamily = FontFamily(Font(googleFont = interFont, fontProvider = provider))
-
+    lateinit var container : AppContainer
+    container = DefaultAppContainer()
 
     Button(
         onClick = {
             Log.d("MyLog", LoginDetails.login)
             Log.d("MyLog", LoginDetails.password)
+            CoroutineScope(Dispatchers.IO).launch {
+                container.userRepository.auth(LoginDetails)
+            }
         },
         modifier = Modifier
             .padding(top = 37.dp)
