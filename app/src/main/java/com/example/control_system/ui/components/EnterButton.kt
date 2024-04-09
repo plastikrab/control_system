@@ -29,6 +29,7 @@ import com.example.control_system.ui.theme.MainColour
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.io.IOException
 
 @Composable
 fun EnterButton(){
@@ -44,10 +45,16 @@ fun EnterButton(){
 
     Button(
         onClick = {
-            Log.d("MyLog", LoginDetails.login)
-            Log.d("MyLog", LoginDetails.password)
+            Log.d("MyLog", LoginDetails.toString())
+            LoginDetails.device = "string"
             CoroutineScope(Dispatchers.IO).launch {
-                container.userRepository.auth(LoginDetails)
+
+                try {
+                    val user = container.userRepository.auth(LoginDetails)
+                    Log.d("MyLog", user.toString())
+                } catch (e : IOException){
+                    Log.d("MyLog", "Error")
+                }
             }
         },
         modifier = Modifier
