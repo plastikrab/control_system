@@ -6,4 +6,3 @@ object LoginDetails {
     lateinit var device: String
 }
 
-// TODO Какие данные нужны для входа

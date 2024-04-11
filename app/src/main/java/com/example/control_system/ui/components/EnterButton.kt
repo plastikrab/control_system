@@ -48,9 +48,9 @@ fun EnterButton(){
             Log.d("MyLog", LoginDetails.toString())
             LoginDetails.device = "string"
             CoroutineScope(Dispatchers.IO).launch {
-
+                val user = container.userRepository.auth(LoginDetails)
                 try {
-                    val user = container.userRepository.auth(LoginDetails)
+
                     Log.d("MyLog", user.toString())
                 } catch (e : IOException){
                     Log.d("MyLog", "Error")
