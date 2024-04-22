@@ -24,6 +24,7 @@ import com.example.control_system.data.model.UserLogin
 import com.example.control_system.data.objects.LoginDetails
 import com.example.control_system.network.AppContainer
 import com.example.control_system.network.DefaultAppContainer
+import com.example.control_system.network.auth
 import com.example.control_system.ui.theme.BG2Colour
 import com.example.control_system.ui.theme.MainColour
 import kotlinx.coroutines.CoroutineScope
@@ -41,21 +42,12 @@ fun EnterButton(){
     val interFont = GoogleFont("Inter")
     val interFamily = FontFamily(Font(googleFont = interFont, fontProvider = provider))
     lateinit var container : AppContainer
-    container = DefaultAppContainer()
 
     Button(
         onClick = {
             Log.d("MyLog", LoginDetails.toString())
             LoginDetails.device = "string"
-            CoroutineScope(Dispatchers.IO).launch {
-                val user = container.userRepository.auth(LoginDetails)
-                try {
-
-                    Log.d("MyLog", user.toString())
-                } catch (e : IOException){
-                    Log.d("MyLog", "Error")
-                }
-            }
+            auth()
         },
         modifier = Modifier
             .padding(top = 37.dp)

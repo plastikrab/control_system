@@ -11,7 +11,7 @@ interface AppContainer{
 
 
 class DefaultAppContainer : AppContainer {
-    private val USERS_BASE_URL = "http://10.3.15.207:8000/users/"
+    private val USERS_BASE_URL = "http://10.3.15.207:8000/api/"
 
 
     private val retrofit : Retrofit = Retrofit.Builder()
