@@ -1,8 +1,12 @@
 package com.example.control_system.ui.components
 
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.TweenSpec
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
@@ -40,76 +45,71 @@ fun TaskCard(
         targetValue = if (expandedState) 180f else 0f
     )
 
-    val cardHight by animateFloatAsState(
-        targetValue = if (expandedState) 420f else 65f
-    )
 
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            //.size(width = 410.dp, height = cardHight.dp),
-                ,
+            .animateContentSize(
+                animationSpec = TweenSpec(
+                    durationMillis = 300,
+                    easing = LinearOutSlowInEasing
+                )
+            ),
         onClick = {
             expandedState = !expandedState
         }
 
     ) {
-        Box(
-            Modifier
-                //.fillMaxSize()
-                .background(Color.Red),
-            contentAlignment = Alignment.BottomEnd
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
         ) {
+            Column(
+                modifier = Modifier
+                    .weight(1.0f)
+            ) {
+                Text(
+                    text = "Name"
+                )
+                Text(
+                    text = "Place"
+                )
+                Text(
+                    text = "Counter"
+                )
+            //TODO Убрать хардкод и настроить стиль
+            }
+            Column {
+                Text(
+                    text = "Status"
+                )
+                Image(painter = painterResource(id = R.drawable.arrow),
+                    contentDescription = "Arrow",
+                    Modifier
+                        .rotate(rotationState)
+                        .padding(top = 18.dp)
+                        .padding(start = 13.dp)
+                        .size(15.dp)
+                )
+            }
+        }
+        if (expandedState)
+        {
             Row(
                 modifier = Modifier
+                    .padding(top = 30.dp)
+                    .horizontalScroll(rememberScrollState())
                     .fillMaxWidth()
             ) {
-                Column(
-                    modifier = Modifier
-                        .weight(1.0f)
-                ) {
-                    Text(
-                        text = "Name"
-                    )
-                    Text(
-                        text = "Place"
-                    )
-                    Text(
-                        text = "Counter"
-                    )
-                    //TODO Убрать хардкод
-                }
-                Column {
-                    Text(
-                        text = "Status"
-
-                    )
-
-                }
-
+                ReportCard()
+                ReportCard()
+                ReportCard()
+                ReportCard()
+                ReportCard()
+                ReportCard()
             }
-            Image(
-                painter = painterResource(id = R.drawable.arrow),
-                contentDescription = "Arrow",
-                Modifier
-                    .rotate(rotationState)
-                    .padding(bottom = 1.dp)
-                    .padding(end = 13.dp)
-                    .size(15.dp),
-
-
-            )
-
-            if (expandedState){
-                Row {
-                    ReportCard()
-                    ReportCard()
-                    ReportCard()
-                    ReportCard()
-                }
-            }
-
         }
+
 
     }
 }

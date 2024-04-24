@@ -1,11 +1,14 @@
 package com.example.control_system.ui.components
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -15,16 +18,21 @@ import androidx.compose.ui.unit.dp
 import com.example.control_system.R
 import com.example.control_system.ui.theme.MainColour
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ReportCard(
     //TODO Добавить переменные для входных данных
 ) {
     Card(
         modifier = Modifier
-            .size(width = 147.dp, height = 233.dp),
+            .size(width = 147.dp, height = 233.dp)
+            .padding(horizontal = 20.dp),
         colors = CardDefaults.cardColors(
             containerColor = MainColour
-        )
+        ),
+        onClick = {
+            Log.d("MyLog", "Clicked")
+        }
     ) {
         Column(
             modifier = Modifier
@@ -36,6 +44,7 @@ fun ReportCard(
             Text(
                 text = "Описание отчёта"
             )
+            //TODO Убрать хардкод и сделать стиль
             Image(
                 painter = painterResource(id = R.drawable.plus),
                 contentDescription = "Plus"
