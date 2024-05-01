@@ -32,8 +32,6 @@ fun Login(){
                 LoginDetails.password = it
             })
 
-        //ForgotPassword() TODO Нужна ли кнопка "Забыли пароль?"
-
         EnterButton()
 
 

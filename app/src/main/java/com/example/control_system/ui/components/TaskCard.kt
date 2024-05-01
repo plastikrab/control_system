@@ -10,12 +10,18 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,20 +29,40 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.AbsoluteAlignment
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.googlefonts.Font
+import androidx.compose.ui.text.googlefonts.GoogleFont
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.control_system.R
+import com.example.control_system.ui.theme.BG2Colour
+import com.example.control_system.ui.theme.MainColour
+import com.example.control_system.ui.theme.TextBlack
 
 @ExperimentalMaterial3Api
 @Composable
 fun TaskCard(
     //TODO Добавить переменные для входных данных
 ) {
+
+    val provider = GoogleFont.Provider(
+        providerAuthority = "com.google.android.gms.fonts",
+        providerPackage = "com.google.android.gms",
+        certificates = R.array.com_google_android_gms_fonts_certs
+    )
+    val interFont = GoogleFont("Inter")
+    val interFamily = FontFamily(Font(googleFont = interFont, fontProvider = provider))
+
 
     var expandedState by remember {
         mutableStateOf(false)
@@ -54,62 +80,143 @@ fun TaskCard(
                     durationMillis = 300,
                     easing = LinearOutSlowInEasing
                 )
-            ),
+            )
+            .padding(vertical = 10.dp)
+            .padding(horizontal = 10.dp)
+            .shadow(4.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = BG2Colour
+        ),
         onClick = {
             expandedState = !expandedState
         }
 
     ) {
-        Row(
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
         ) {
-            Column(
+            Row(
                 modifier = Modifier
-                    .weight(1.0f)
+                    .fillMaxWidth()
             ) {
-                Text(
-                    text = "Name"
-                )
-                Text(
-                    text = "Place"
-                )
-                Text(
-                    text = "Counter"
-                )
-            //TODO Убрать хардкод и настроить стиль
+                Column(
+                    modifier = Modifier
+                        .weight(1.0f)
+                        .padding(start = 10.dp)
+                ) {
+                    Text(
+                        text = "Название",
+                        style = TextStyle(
+                            fontSize = 15.sp,
+                            fontFamily = interFamily,
+                            fontWeight = FontWeight(950),
+                            color = TextBlack
+                        )
+                    )
+                    Text(
+                        text = "Место",
+                        style = TextStyle(
+                            fontSize = 10.sp,
+                            fontFamily = interFamily,
+                            fontWeight = FontWeight(550),
+                            color = TextBlack
+                        )
+                    )
+                    Text(
+                        text = "Количество сданных отчётов",
+                        style = TextStyle(
+                            fontSize = 10.sp,
+                            fontFamily = interFamily,
+                            fontWeight = FontWeight(950),
+                            color = TextBlack
+                        )
+                    )
+                    //TODO Убрать хардкод и настроить стиль
+                }
+                Column {
+                    Text(
+                        text = "Ожидание выполнения",
+                        modifier = Modifier
+                            .padding(end = 10.dp),
+                        style = TextStyle(
+                            fontSize = 13.sp,
+                            fontFamily = interFamily,
+                            fontWeight = FontWeight(950),
+                            color = TextBlack
+                        )
+                    )
+
+                }
             }
-            Column {
-                Text(
-                    text = "Status"
+            if (expandedState)
+            {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .padding(top = 30.dp)
+                            .horizontalScroll(rememberScrollState())
+                            .fillMaxWidth()
+                            .padding(bottom = 30.dp)
+                    ) {
+                        ReportCard()
+                        ReportCard()
+                        ReportCard()
+                        ReportCard()
+                        ReportCard()
+                        ReportCard()
+                    }
+
+                    Button(
+                        modifier = Modifier
+                            .size(width = 292.dp, height = 51.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MainColour
+                        ),
+                        shape = RoundedCornerShape(15.dp),
+                        onClick = {
+                    //TODO Отпарвка отчёта
+                    }
+                    ) {
+                        Text(
+                            text = "Завершить",
+                            color = BG2Colour,
+                            style = TextStyle(
+                                fontSize = 21.sp,
+                                fontFamily = interFamily,
+                                fontWeight = FontWeight(750),
+                                color = BG2Colour
+                            )
+                        )
+                    }
+                }
+            }
+
+            Row(
+                Modifier.fillMaxWidth()
+            ) {
+                Spacer(
+                    modifier = Modifier
+                        .weight(1f)
                 )
+
                 Image(painter = painterResource(id = R.drawable.arrow),
                     contentDescription = "Arrow",
                     Modifier
                         .rotate(rotationState)
-                        .padding(top = 18.dp)
+                        //.padding(bottom = 2.dp)
+                        .padding(end = 13.dp)
                         .padding(start = 13.dp)
-                        .size(15.dp)
-                )
-            }
-        }
-        if (expandedState)
-        {
-            Row(
-                modifier = Modifier
-                    .padding(top = 30.dp)
-                    .horizontalScroll(rememberScrollState())
-                    .fillMaxWidth()
-            ) {
-                ReportCard()
-                ReportCard()
-                ReportCard()
-                ReportCard()
-                ReportCard()
-                ReportCard()
-            }
-        }
+                        .size(15.dp),
 
+                    )
+            }
+
+        }
 
     }
 }
@@ -118,5 +225,13 @@ fun TaskCard(
 @Preview
 @Composable
 fun taskPrev(){
-    TaskCard()
+    Column(
+        modifier = Modifier
+            .verticalScroll(rememberScrollState())
+    ) {
+        TaskCard()
+        TaskCard()
+        TaskCard()
+    }
+
 }
