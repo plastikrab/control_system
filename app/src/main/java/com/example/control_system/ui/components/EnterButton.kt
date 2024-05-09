@@ -1,6 +1,9 @@
 package com.example.control_system.ui.components
 
+import android.net.http.HttpException
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresExtension
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -24,14 +27,15 @@ import com.example.control_system.data.model.UserLogin
 import com.example.control_system.data.objects.LoginDetails
 import com.example.control_system.network.AppContainer
 import com.example.control_system.network.DefaultAppContainer
-import com.example.control_system.network.auth
 import com.example.control_system.ui.theme.BG2Colour
 import com.example.control_system.ui.theme.MainColour
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import retrofit2.Retrofit
 import java.io.IOException
 
+@RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
 @Composable
 fun EnterButton(){
     val provider = GoogleFont.Provider(
@@ -42,6 +46,7 @@ fun EnterButton(){
     val interFont = GoogleFont("Inter")
     val interFamily = FontFamily(Font(googleFont = interFont, fontProvider = provider))
     lateinit var container : AppContainer
+    container = DefaultAppContainer()
 
     Button(
         onClick = {

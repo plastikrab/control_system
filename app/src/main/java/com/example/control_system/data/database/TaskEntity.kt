@@ -16,6 +16,6 @@ data class TaskEntity(
     val title: String,
     val description: String,
     val endTime: Long?,
-    @ColumnInfo(name = "created_at") val createdAt: Long,
-    @ColumnInfo(name = "updated_at") val updatedAt: Long
+    val createdAt: Long,
+    val updatedAt: Long
 )

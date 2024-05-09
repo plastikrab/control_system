@@ -8,14 +8,14 @@ import androidx.room.RoomDatabase
 @Database(
     entities = [
         TaskEntity::class,
-        ChoiceReportEntity::class,
-        TaskEntity::class
+        //ChoiceReportEntity::class,
+        //TaskWithChoiceReports::class
     ],
     version = 1
 )
 abstract class MainDB : RoomDatabase(){
 
-
+    abstract val dao : TaskDao
     companion object{
         fun createDataBase(context : Context): MainDB{
             return Room.databaseBuilder(

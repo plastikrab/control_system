@@ -6,7 +6,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
-@Entity(primaryKeys = ["id", "taskId"],
+@Entity(primaryKeys = ["id"],
     foreignKeys = [
         ForeignKey(
             entity = TaskEntity::class,
@@ -17,7 +17,7 @@ import androidx.room.PrimaryKey
         )
     ])
 data class TaskWithChoiceReports(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    @PrimaryKey(autoGenerate = false) val id: Int = 0,
     val createdByUserId: Int,
     val assignedToUserId: Int?,
     val status: String,
@@ -27,8 +27,8 @@ data class TaskWithChoiceReports(
     val title: String,
     val description: String,
     val endTime: Long?,
-    @ColumnInfo(name = "created_at") val createdAt: Long,
-    @ColumnInfo(name = "updated_at") val updatedAt: Long,
+    val createdAt: Long,
+    val updatedAt: Long,
     val taskId: Int,
     @Embedded val choiceReports: List<ChoiceReportEntity>
 )

@@ -3,6 +3,8 @@ package com.example.control_system
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Column
+import androidx.compose.ui.Alignment
 import com.example.control_system.ui.screens.Login
 import com.example.control_system.ui.theme.Control_systemTheme
 import retrofit2.Retrofit
@@ -15,7 +17,11 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             Control_systemTheme {
-                    Login()
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Login()
+                    }
                 }
             }
         }
