@@ -13,9 +13,18 @@ import androidx.compose.ui.text.googlefonts.GoogleFont
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.control_system.R
+import com.example.control_system.ui.theme.BordersColour
+import com.example.control_system.ui.theme.TextBlack
 
 @Composable
-fun LoginText(text : String){
+fun LoginText(
+    text : String,
+    fieldsColorState : Color
+){
+    var color = TextBlack
+    if (fieldsColorState != BordersColour){
+        color = fieldsColorState
+    }
 
     val provider = GoogleFont.Provider(
         providerAuthority = "com.google.android.gms.fonts",
@@ -31,7 +40,7 @@ fun LoginText(text : String){
             fontSize = 24.sp,
             fontFamily = interFamily,
             fontWeight = FontWeight(400),
-            color = Color(0xFF000000),
+            color = color,
         ),
         modifier = Modifier
             .padding(top = 15.dp, bottom = 5.dp)

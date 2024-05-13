@@ -1,6 +1,5 @@
 package com.example.control_system.data.database
 
-import android.app.Application
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey

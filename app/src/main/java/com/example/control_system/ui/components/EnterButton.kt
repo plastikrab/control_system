@@ -1,6 +1,5 @@
 package com.example.control_system.ui.components
 
-import android.net.http.HttpException
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresExtension
@@ -13,7 +12,6 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -22,22 +20,19 @@ import androidx.compose.ui.text.googlefonts.GoogleFont
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.control_system.R
-import com.example.control_system.data.model.UserData
-import com.example.control_system.data.model.UserLogin
+import com.example.control_system.data.model.Token
 import com.example.control_system.data.objects.LoginDetails
-import com.example.control_system.network.AppContainer
-import com.example.control_system.network.DefaultAppContainer
+import com.example.control_system.network.auth
 import com.example.control_system.ui.theme.BG2Colour
 import com.example.control_system.ui.theme.MainColour
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import retrofit2.Retrofit
-import java.io.IOException
+import retrofit2.Response
 
 @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
 @Composable
-fun EnterButton(){
+fun EnterButton(
+    confirmed: (Response<Token>) -> Unit,
+    wrongData : () -> Unit
+){
     val provider = GoogleFont.Provider(
         providerAuthority = "com.google.android.gms.fonts",
         providerPackage = "com.google.android.gms",
@@ -45,14 +40,19 @@ fun EnterButton(){
     )
     val interFont = GoogleFont("Inter")
     val interFamily = FontFamily(Font(googleFont = interFont, fontProvider = provider))
-    lateinit var container : AppContainer
-    container = DefaultAppContainer()
 
     Button(
         onClick = {
             Log.d("MyLog", LoginDetails.toString())
             LoginDetails.device = "string"
-            auth()
+            auth(
+                confirmed = {
+                    confirmed(it)
+                },
+                wrongData = {
+                    wrongData()
+                }
+            )
         },
         modifier = Modifier
             .padding(top = 37.dp)
