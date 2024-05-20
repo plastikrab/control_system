@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.sp
 import com.example.control_system.R
 import com.example.control_system.ui.theme.BG2Colour
 import com.example.control_system.ui.theme.BordersColour
+import com.example.control_system.ui.theme.TextBlack
 
 @SuppressLint("UnrememberedMutableState")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -87,12 +88,16 @@ fun LoginTextField(
                 disabledLabelColor = BG2Colour,
                 unfocusedLabelColor = fieldsColorState,
                 unfocusedBorderColor = fieldsColorState,
-                focusedBorderColor = BordersColour
+                focusedBorderColor = BordersColour,
+                unfocusedTextColor = TextBlack,
+                focusedTextColor = TextBlack
             ),
             singleLine = true,
             shape = RoundedCornerShape(10.dp)
         )
     }
+
+    //TODO сделать нормальные ошибки ввода
 
     if (passwordField){
         //Ввод
@@ -126,7 +131,9 @@ fun LoginTextField(
                 disabledLabelColor = BG2Colour,
                 unfocusedLabelColor = fieldsColorState,
                 unfocusedBorderColor = fieldsColorState,
-                focusedBorderColor = BordersColour
+                focusedBorderColor = BordersColour,
+                unfocusedTextColor = TextBlack,
+                focusedTextColor = TextBlack
             ),
             singleLine = true,
             shape = RoundedCornerShape(10.dp),

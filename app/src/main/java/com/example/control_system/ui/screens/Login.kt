@@ -39,7 +39,8 @@ import retrofit2.Response
 @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
 @Composable
 fun Login(
-    confirmed: (Response<Token>) -> Unit
+    confirmed: (Response<Token>) -> Unit,
+    onConnectionError : () -> Unit
 ){
     val provider = GoogleFont.Provider(
         providerAuthority = "com.google.android.gms.fonts",
@@ -131,6 +132,9 @@ fun Login(
             },
             wrongData = {
                 fieldsColorState = ErrorColour
+            },
+            onConnectionError = {
+                onConnectionError()
             }
         )
 
@@ -144,5 +148,8 @@ fun Login(
 fun prevLogin(){
     Login(confirmed = {
 
-    })
+    },
+        onConnectionError = {
+
+        })
 }

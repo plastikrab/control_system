@@ -1,7 +1,7 @@
 package com.example.control_system.network
 
 import android.util.Log
-import com.auth0.jwt.JWT
+import android.widget.Toast
 import com.example.control_system.data.model.LoginDetailsModel
 import com.example.control_system.data.model.Token
 import com.example.control_system.data.objects.LoginDetails
@@ -14,7 +14,8 @@ import java.io.IOException
 
 fun auth(
     confirmed: (Response<Token>) -> Unit,
-    wrongData : () -> Unit
+    wrongData : () -> Unit,
+    onConnectionError : () -> Unit
 ){
     var container = DefaultAppContainer()
     var LoginData = LoginDetailsModel(
@@ -42,6 +43,10 @@ fun auth(
         } catch (e : IOException){
             Log.d("MyLog", "Fail to connect server")
             e.printStackTrace()
+            CoroutineScope(Dispatchers.Main).launch(){
+                onConnectionError()
+            }
+
         }
     }
 }

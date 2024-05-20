@@ -3,6 +3,7 @@ package com.example.control_system
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresExtension
@@ -52,13 +53,17 @@ class MainActivity : ComponentActivity() {
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            Login(confirmed = {
-                                editor.apply{
-                                    putString("accessToken", it.body()?.accessToken)
-                                    putString("refreshToken", it.body()?.accessToken)
-                                }.apply()
-                                navController.navigate("mainScreen")
-                            })
+                            Login(
+                                confirmed = {
+                                    editor.apply{
+                                        putString("accessToken", it.body()?.accessToken)
+                                        putString("refreshToken", it.body()?.accessToken)
+                                    }.apply()
+                                    navController.navigate("mainScreen")
+                                },
+                                onConnectionError = {
+                                    showToast()
+                                })
                         }
                     }
 
@@ -75,5 +80,15 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    private fun showToast(){
+        val toast = Toast.makeText(
+            this,
+            "проверьте подключение к интернету",
+            Toast.LENGTH_LONG
+        )
+        toast.show()
+
     }
 }

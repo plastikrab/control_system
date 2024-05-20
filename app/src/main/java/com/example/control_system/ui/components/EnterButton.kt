@@ -31,7 +31,8 @@ import retrofit2.Response
 @Composable
 fun EnterButton(
     confirmed: (Response<Token>) -> Unit,
-    wrongData : () -> Unit
+    wrongData : () -> Unit,
+    onConnectionError : () -> Unit
 ){
     val provider = GoogleFont.Provider(
         providerAuthority = "com.google.android.gms.fonts",
@@ -51,6 +52,9 @@ fun EnterButton(
                 },
                 wrongData = {
                     wrongData()
+                },
+                onConnectionError = {
+                    onConnectionError()
                 }
             )
         },
