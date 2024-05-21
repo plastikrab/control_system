@@ -147,7 +147,7 @@ fun LoginTextField(
 
 @Preview
 @Composable
-fun LoginTextFieldPrev(){
+private fun prev(){
     LoginTextField(text = "example", onTextChanged = {
 
     },

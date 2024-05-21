@@ -110,6 +110,6 @@ fun ReportCard(
 
 @Preview
 @Composable
-fun repCardPrev(){
+private fun prev(){
     ReportCard()
 }

@@ -219,7 +219,7 @@ fun TaskCard(
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
-fun taskPrev(){
+private fun prev(){
     Column(
         modifier = Modifier
             .verticalScroll(rememberScrollState())

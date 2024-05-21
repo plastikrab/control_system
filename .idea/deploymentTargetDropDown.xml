@@ -8,6 +8,9 @@
       <entry key="prevLogin">
         <State />
       </entry>
+      <entry key="prevTaskBottomSheet">
+        <State />
+      </entry>
       <entry key="taskPrev">
         <State />
       </entry>

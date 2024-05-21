@@ -31,12 +31,12 @@ class MainActivity : ComponentActivity() {
         var startScreen = "loginScreen"
         var accessToken = sharedPreferences.getString("accessToken", null)
 
-        //if (accessToken == null){
-        //    startScreen = "loginScreen"
-        //}
-        //if (accessToken != null){
-        //    startScreen = "mainScreen"
-        //}
+        if (accessToken == null){
+            startScreen = "loginScreen"
+        }
+        if (accessToken != null){
+            startScreen = "mainScreen"
+        }
 
 
         super.onCreate(savedInstanceState)
