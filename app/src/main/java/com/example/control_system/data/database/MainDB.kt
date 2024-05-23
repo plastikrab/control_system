@@ -8,10 +8,10 @@ import androidx.room.RoomDatabase
 @Database(
     entities = [
         TaskEntity::class,
-        //ChoiceReportEntity::class,
-        //TaskWithChoiceReports::class
+        ChoiceReportEntity::class,
+        TaskWithChoiceReports::class
     ],
-    version = 1
+    version = 2
 )
 abstract class MainDB : RoomDatabase(){
 
