@@ -21,6 +21,7 @@ import com.example.control_system.ui.theme.Control_systemTheme
 import androidx.navigation.compose.rememberNavController
 import com.example.control_system.data.model.Token
 import com.example.control_system.ui.components.TaskCard
+import com.example.control_system.ui.screens.MainReportsScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 class MainActivity : ComponentActivity() {
@@ -30,6 +31,7 @@ class MainActivity : ComponentActivity() {
         val editor = sharedPreferences.edit()
         var startScreen = "loginScreen"
         var accessToken = sharedPreferences.getString("accessToken", null)
+
 
         if (accessToken == null){
             startScreen = "loginScreen"
@@ -85,7 +87,7 @@ class MainActivity : ComponentActivity() {
     private fun showToast(){
         val toast = Toast.makeText(
             this,
-            "проверьте подключение к интернету",
+            "Проверьте подключение к интернету",
             Toast.LENGTH_LONG
         )
         toast.show()

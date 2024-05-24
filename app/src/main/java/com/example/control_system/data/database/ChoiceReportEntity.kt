@@ -18,7 +18,7 @@ import androidx.room.PrimaryKey
         )
     ])
 data class ChoiceReportEntity(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    @PrimaryKey(autoGenerate = false) val id: Int? = null,
     val text: String,
     val answer: Boolean,
     @ColumnInfo(name = "created_at") val createdAt: Long,

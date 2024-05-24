@@ -19,6 +19,8 @@ import androidx.compose.ui.text.googlefonts.GoogleFont
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.control_system.MainViewModel
 import com.example.control_system.R
 import com.example.control_system.data.objects.LoginDetails
 import com.example.control_system.network.auth
@@ -28,9 +30,9 @@ import com.example.control_system.ui.theme.MainColour
 
 @Composable
 fun MainReportsScreen(
-
+    mainViewModel: MainViewModel = viewModel(factory = MainViewModel.factory),
 ) {
-
+    
 }
 
 

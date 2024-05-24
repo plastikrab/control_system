@@ -16,7 +16,7 @@ import androidx.room.PrimaryKey
         )
     ])
 data class TaskWithChoiceReports(
-    @PrimaryKey(autoGenerate = false) val id: Int = 0,
+    @PrimaryKey(autoGenerate = false) val id: Int? = null,
     val createdByUserId: Int,
     val assignedToUserId: Int?,
     val status: String,
