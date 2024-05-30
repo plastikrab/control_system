@@ -10,6 +10,7 @@ import androidx.annotation.RequiresExtension
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,8 +21,10 @@ import com.example.control_system.ui.screens.Login
 import com.example.control_system.ui.theme.Control_systemTheme
 import androidx.navigation.compose.rememberNavController
 import com.example.control_system.data.model.Token
+import com.example.control_system.ui.components.NavigationPannel
 import com.example.control_system.ui.components.TaskCard
 import com.example.control_system.ui.screens.MainReportsScreen
+import com.example.control_system.ui.theme.BG2Colour
 
 @OptIn(ExperimentalMaterial3Api::class)
 class MainActivity : ComponentActivity() {
@@ -43,6 +46,8 @@ class MainActivity : ComponentActivity() {
 
         super.onCreate(savedInstanceState)
         setContent {
+
+
             val navController = rememberNavController()
 
             Control_systemTheme {
@@ -77,7 +82,13 @@ class MainActivity : ComponentActivity() {
                             TaskCard()
                             TaskCard()
                             TaskCard()
+                            BottomAppBar(
+                                containerColor = BG2Colour
+                            ) {
+                                NavigationPannel(selectionStatus = 1)
+                            }
                         }
+
                     }
                 }
             }
