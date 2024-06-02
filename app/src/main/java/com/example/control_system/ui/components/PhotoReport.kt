@@ -20,7 +20,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.control_system.R
-import com.example.control_system.ui.screens.MainReportsScreen
 import com.example.control_system.ui.theme.BG2Colour
 import com.example.control_system.ui.theme.MainColour
 

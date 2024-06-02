@@ -101,6 +101,6 @@ dependencies {
     implementation ("com.squareup.okhttp3:okhttp:4.9.3")
 
     //JWT decoder
-    implementation("com.auth0:java-jwt:3.18.2")
+    implementation ("com.auth0.android:jwtdecode:2.0.2")
 
 }

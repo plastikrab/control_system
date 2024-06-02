@@ -1,6 +1,6 @@
 package com.example.control_system.data.model
 
-data class ChoiceReport(
+data class FileBlock(
     val text: String,
-    val answer: Boolean
+    val url: String
 )

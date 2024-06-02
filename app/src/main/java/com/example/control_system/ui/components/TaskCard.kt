@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -40,6 +42,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.control_system.R
+import com.example.control_system.data.model.Scenario
 import com.example.control_system.ui.theme.BG2Colour
 import com.example.control_system.ui.theme.MainColour
 import com.example.control_system.ui.theme.TextBlack
@@ -47,7 +50,7 @@ import com.example.control_system.ui.theme.TextBlack
 @ExperimentalMaterial3Api
 @Composable
 fun TaskCard(
-    //TODO Добавить переменные для входных данных
+    scenario: Scenario
 ) {
 
     val provider = GoogleFont.Provider(
@@ -100,8 +103,9 @@ fun TaskCard(
                         .weight(1.0f)
                         .padding(start = 10.dp)
                 ) {
+                    //Название
                     Text(
-                        text = "Название",
+                        text = scenario.title,
                         style = TextStyle(
                             fontSize = 15.sp,
                             fontFamily = interFamily,
@@ -109,6 +113,7 @@ fun TaskCard(
                             color = TextBlack
                         )
                     )
+                    //Место
                     Text(
                         text = "Место",
                         style = TextStyle(
@@ -118,6 +123,7 @@ fun TaskCard(
                             color = TextBlack
                         )
                     )
+                    //Количество сданных отчётов
                     Text(
                         text = "Количество сданных отчётов",
                         style = TextStyle(
@@ -151,19 +157,15 @@ fun TaskCard(
                     modifier = Modifier
                         .fillMaxWidth()
                 ) {
-                    Row(
+                    LazyRow(
                         modifier = Modifier
                             .padding(top = 30.dp)
-                            .horizontalScroll(rememberScrollState())
                             .fillMaxWidth()
                             .padding(bottom = 30.dp)
                     ) {
-                        ReportCard()
-                        ReportCard()
-                        ReportCard()
-                        ReportCard()
-                        ReportCard()
-                        ReportCard()
+                        items(scenario.reports){
+                            ReportCard(it)
+                        }
                     }
 
                     Button(
@@ -216,17 +218,17 @@ fun TaskCard(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Preview
-@Composable
-private fun prev(){
-    Column(
-        modifier = Modifier
-            .verticalScroll(rememberScrollState())
-    ) {
-        TaskCard()
-        TaskCard()
-        TaskCard()
-    }
-
-}
+//@OptIn(ExperimentalMaterial3Api::class)
+//@Preview
+//@Composable
+//private fun prev(){
+//    Column(
+//        modifier = Modifier
+//            .verticalScroll(rememberScrollState())
+//    ) {
+//        TaskCard()
+//        TaskCard()
+//        TaskCard()
+//    }
+//
+//}

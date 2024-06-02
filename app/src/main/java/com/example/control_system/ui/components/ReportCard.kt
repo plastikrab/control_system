@@ -26,13 +26,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.control_system.R
+import com.example.control_system.data.model.Report
+import com.example.control_system.data.model.Scenario
 import com.example.control_system.ui.theme.BG2Colour
 import com.example.control_system.ui.theme.MainColour
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ReportCard(
-    //TODO Добавить переменные для входных данных
+    report : Report
 ) {
 
     val provider = GoogleFont.Provider(
@@ -66,8 +68,10 @@ fun ReportCard(
                     .background(MainColour)
                     .fillMaxSize()
             ) {
+
+                //Title
                 Text(
-                    text = "Название части отчёта",
+                    text = report.title,
                     color = BG2Colour,
                     style = TextStyle(
                         fontSize = 11.sp,
@@ -79,8 +83,10 @@ fun ReportCard(
                         .padding(start = 7.dp)
                         .padding(top = 1.dp)
                 )
+
+                //Description
                 Text(
-                    text = "Описание отчёта",
+                    text = report.description,
                     color = BG2Colour,
                     style = TextStyle(
                         fontSize = 8.sp,
@@ -108,8 +114,8 @@ fun ReportCard(
 }
 
 
-@Preview
-@Composable
-private fun prev(){
-    ReportCard()
-}
+//@Preview
+//@Composable
+//private fun prev(){
+//    ReportCard()
+//}

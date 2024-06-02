@@ -4,13 +4,13 @@ import com.example.control_system.data.model.LoginDetailsModel
 import com.example.control_system.data.model.Token
 import retrofit2.Response
 
-interface UserRepository {
+interface UsersRepository {
     suspend fun auth(authRequest: LoginDetailsModel): Response<Token>
 }
 
-class NetworkUserRepository(
+class NetworkUsersRepository(
     private val userService : UsersMainApi
-) : UserRepository {
+) : UsersRepository {
     override suspend fun auth(
         authRequest: LoginDetailsModel
     ): Response<Token> = userService.auth(authRequest)

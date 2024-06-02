@@ -5,6 +5,9 @@
       <entry key="app">
         <State />
       </entry>
+      <entry key="prev">
+        <State />
+      </entry>
       <entry key="prevLogin">
         <State />
       </entry>
