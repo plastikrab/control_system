@@ -22,19 +22,18 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.googlefonts.Font
 import androidx.compose.ui.text.googlefonts.GoogleFont
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.control_system.R
-import com.example.control_system.data.model.Report
-import com.example.control_system.data.model.Scenario
+import com.example.control_system.data.model.scenarioModel.Report
+import com.example.control_system.data.model.scenarioModel.ReportAssignment
 import com.example.control_system.ui.theme.BG2Colour
 import com.example.control_system.ui.theme.MainColour
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ReportCard(
-    report : Report
+    report : ReportAssignment
 ) {
 
     val provider = GoogleFont.Provider(
@@ -71,7 +70,7 @@ fun ReportCard(
 
                 //Title
                 Text(
-                    text = report.title,
+                    text = report.report.title,
                     color = BG2Colour,
                     style = TextStyle(
                         fontSize = 11.sp,
@@ -86,7 +85,7 @@ fun ReportCard(
 
                 //Description
                 Text(
-                    text = report.description,
+                    text = report.report.description,
                     color = BG2Colour,
                     style = TextStyle(
                         fontSize = 8.sp,

@@ -2,8 +2,7 @@ package com.example.control_system.network
 
 import android.util.Log
 import com.example.control_system.data.model.LectureRequestData
-import com.example.control_system.data.model.ServerResponse
-import com.example.control_system.data.model.Token
+import com.example.control_system.data.model.scenarioModel.ServerResponse
 import com.example.control_system.data.model.UserToken
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -47,6 +46,8 @@ fun getTasks(
                 onConnectionError()
             }
 
+        }catch (e: java.lang.IllegalStateException){
+            Log.d("MyLog", "Fail to connect server")
         }
     }
 }

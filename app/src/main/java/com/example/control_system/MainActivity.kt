@@ -17,9 +17,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.auth0.android.jwt.JWT
-import com.example.control_system.data.model.Report
 import com.example.control_system.data.model.RoleSettings
-import com.example.control_system.data.model.Scenario
+import com.example.control_system.data.model.scenarioModel.Scenario
 import com.example.control_system.data.model.UserToken
 import com.example.control_system.network.getTasks
 import com.example.control_system.ui.components.NavigationPannel
@@ -76,15 +75,14 @@ class MainActivity : ComponentActivity() {
                                             putString("accessToken", it.body()?.accessToken)
                                             putString("refreshToken", it.body()?.refreshToken)
                                         }.apply()
-                                        val jwtDecoder = JwtDecoder(it.body()!!.accessToken)
-                                        userToken = jwtDecoder.getUserData()
+                                        userToken = jwtDecoder(accessToken!!)!!
                                         getTasks(
                                             userToken,
                                             onConnectionError = {
                                                 showToast()
                                             }
                                         ) {
-                                            scenrioList1 = it.body()?.data!!
+                                            scenrioList1 = it.body()!!.data.scenarios
                                         }
                                         navController.navigate("mainScreen")
                                     },
@@ -99,15 +97,14 @@ class MainActivity : ComponentActivity() {
                                 modifier = Modifier
                                     .fillMaxSize()
                             ) {
-                                val jwtDecoder = JwtDecoder(accessToken.toString())
-                                userToken = jwtDecoder.getUserData()
+                                userToken = jwtDecoder(accessToken!!)!!
                                 getTasks(
                                     userToken,
                                     onConnectionError = {
                                         showToast()
                                     }
                                 ) {
-                                    scenrioList1 = it.body()?.data!!
+                                    scenrioList1 = it.body()!!.data.scenarios
                                 }
                                 MainReportsScreen(scenrioList1)
                             }
@@ -143,6 +140,25 @@ class MainActivity : ComponentActivity() {
             Toast.LENGTH_LONG
         )
         toast.show()
+
+    }
+
+    private fun jwtDecoder(token: String): UserToken? {
+        val jwt = JWT(token)
+
+        val login = jwt.getClaim("login").asString() ?: return null
+        val roleSettings = jwt.getClaim("roleSettings").asObject(RoleSettings::class.java)  ?: return null
+        val sub = jwt.subject ?: return null
+        val iat = jwt.issuedAt ?: return null
+        val exp = jwt.expiresAt ?: return null
+
+        return UserToken(
+            login = login,
+            roleSettings = roleSettings,
+            sub = sub,
+            iat = iat,
+            exp = exp
+        )
 
     }
 }

@@ -5,7 +5,6 @@ import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.TweenSpec
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -13,10 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -38,11 +34,10 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.googlefonts.Font
 import androidx.compose.ui.text.googlefonts.GoogleFont
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.control_system.R
-import com.example.control_system.data.model.Scenario
+import com.example.control_system.data.model.scenarioModel.Scenario
 import com.example.control_system.ui.theme.BG2Colour
 import com.example.control_system.ui.theme.MainColour
 import com.example.control_system.ui.theme.TextBlack
@@ -105,7 +100,7 @@ fun TaskCard(
                 ) {
                     //Название
                     Text(
-                        text = scenario.title,
+                        text = scenario.scenario.title,
                         style = TextStyle(
                             fontSize = 15.sp,
                             fontFamily = interFamily,
@@ -163,8 +158,8 @@ fun TaskCard(
                             .fillMaxWidth()
                             .padding(bottom = 30.dp)
                     ) {
-                        items(scenario.reports){
-                            ReportCard(it)
+                        items(scenario.reportsAssigned.size){
+                            ReportCard(scenario.reportsAssigned[it])
                         }
                     }
 
