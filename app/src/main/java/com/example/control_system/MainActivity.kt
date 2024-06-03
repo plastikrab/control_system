@@ -39,27 +39,7 @@ class MainActivity : ComponentActivity() {
 
         var userToken: UserToken
 
-
-        var report = Report(
-            "Example",
-            "Example description",
-            "Type",
-            listOf(null),
-            listOf(null)
-        )
-
-
-
-
-        val reportList = mutableListOf<Report>(report,report,report,report,report,report,report)
-
-        val scenario = Scenario(
-            1,
-            "Example",
-            "Exemple description",
-            reportList
-        )
-
+        var scenrioList1 = listOf<Scenario>()
 
         if (accessToken == null){
             startScreen = "loginScreen"
@@ -68,10 +48,6 @@ class MainActivity : ComponentActivity() {
             startScreen = "mainScreen"
             Log.d("MyLog", accessToken)
         }
-        var scenarioList = mutableListOf<Scenario>(scenario,scenario,scenario,scenario,scenario)
-
-        var scenrioList1 = listOf<Scenario>()
-
 
         super.onCreate(savedInstanceState)
         setContent {
@@ -100,7 +76,8 @@ class MainActivity : ComponentActivity() {
                                             putString("accessToken", it.body()?.accessToken)
                                             putString("refreshToken", it.body()?.refreshToken)
                                         }.apply()
-                                        userToken = jwtDecoder(it.body()?.accessToken)
+                                        val jwtDecoder = JwtDecoder(it.body()!!.accessToken)
+                                        userToken = jwtDecoder.getUserData()
                                         getTasks(
                                             userToken,
                                             onConnectionError = {
@@ -122,9 +99,8 @@ class MainActivity : ComponentActivity() {
                                 modifier = Modifier
                                     .fillMaxSize()
                             ) {
-                                userToken = jwtDecoder(
-                                    accessToken.toString()
-                                )
+                                val jwtDecoder = JwtDecoder(accessToken.toString())
+                                userToken = jwtDecoder.getUserData()
                                 getTasks(
                                     userToken,
                                     onConnectionError = {
@@ -167,38 +143,6 @@ class MainActivity : ComponentActivity() {
             Toast.LENGTH_LONG
         )
         toast.show()
-
-    }
-
-    private fun jwtDecoder(token: String?): UserToken {
-        val jwt = JWT(token!!)
-
-        val issuer = jwt.issuer
-
-        var login = jwt.getClaim("login").asString()
-        var id = jwt.getClaim("id").asInt()
-        var user = jwt.getClaim("user").asBoolean()
-        var manager = jwt.getClaim("manager").asBoolean()
-        var analyst = jwt.getClaim("analyst").asBoolean()
-        var administrator = jwt.getClaim("administrator").asBoolean()
-
-        var sub = jwt.subject
-        var iat = jwt.issuedAt
-        var exp = jwt.expiresAt
-
-        return UserToken(
-            login!!,
-            RoleSettings(
-                id!!,
-                user!!,
-                manager!!,
-                analyst!!,
-                administrator!!
-            ),
-            sub,
-            iat,
-            exp
-        )
 
     }
 }
