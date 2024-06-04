@@ -11,8 +11,12 @@ import androidx.annotation.RequiresExtension
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -33,24 +37,31 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         val sharedPreferences = getSharedPreferences("tokens", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
-        var startScreen = "loginScreen"
+        var startScreen = mutableStateOf<String>("loginScreen")
         var accessToken = sharedPreferences.getString("accessToken", null)
 
         var userToken: UserToken
 
-        var scenrioList1 = listOf<Scenario>()
+        var scenarioList = listOf<Scenario>()
 
-        if (accessToken == null){
-            startScreen = "loginScreen"
-        }
-        if (accessToken != null){
-            startScreen = "mainScreen"
-            Log.d("MyLog", accessToken)
-        }
 
         super.onCreate(savedInstanceState)
         setContent {
 
+            var expandedState by remember {
+                mutableStateOf(false)
+            }
+
+            if (accessToken == null){
+                startScreen.value = "loginScreen"
+                expandedState = false
+            }
+            if (accessToken != null){
+                startScreen.value = "mainScreen"
+                expandedState = true
+                Log.d("MyLog", accessToken!!)
+
+            }
 
             val navController = rememberNavController()
 
@@ -61,7 +72,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     NavHost(
                         navController = navController,
-                        startDestination = startScreen,
+                        startDestination = startScreen.value,
                         modifier = Modifier
                             .weight(1.0f)
                     ){
@@ -75,6 +86,7 @@ class MainActivity : ComponentActivity() {
                                             putString("accessToken", it.body()?.accessToken)
                                             putString("refreshToken", it.body()?.refreshToken)
                                         }.apply()
+                                        accessToken = it.body()?.accessToken
                                         userToken = jwtDecoder(accessToken!!)!!
                                         getTasks(
                                             userToken,
@@ -82,8 +94,9 @@ class MainActivity : ComponentActivity() {
                                                 showToast()
                                             }
                                         ) {
-                                            scenrioList1 = it.body()!!.data.scenarios
+                                            scenarioList = it.body()!!.data.scenarios
                                         }
+                                        expandedState = true
                                         navController.navigate("mainScreen")
                                     },
                                     onConnectionError = {
@@ -104,9 +117,10 @@ class MainActivity : ComponentActivity() {
                                         showToast()
                                     }
                                 ) {
-                                    scenrioList1 = it.body()!!.data.scenarios
+                                    scenarioList = it.body()!!.data.scenarios
                                 }
-                                MainReportsScreen(scenrioList1)
+                                //TODO Заменить List на MutableList
+                                MainReportsScreen(scenarioList)
                             }
 
                         }
@@ -115,7 +129,7 @@ class MainActivity : ComponentActivity() {
                             MainProfileScreen()
                         }
                     }
-                    if (startScreen == "mainScreen"){
+                    if (expandedState){
                         NavigationPannel(
                             tasksNavigate = {
                                 navController.navigate("mainScreen")
@@ -125,10 +139,7 @@ class MainActivity : ComponentActivity() {
                             }
                         )
                     }
-
-
                 }
-
             }
         }
     }
