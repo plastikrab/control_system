@@ -24,6 +24,8 @@ import com.auth0.android.jwt.JWT
 import com.example.control_system.data.model.RoleSettings
 import com.example.control_system.data.model.scenarioModel.Scenario
 import com.example.control_system.data.model.UserToken
+import com.example.control_system.data.model.scenarioModel.ScenarioData
+import com.example.control_system.data.model.scenarioModel.ServerResponse
 import com.example.control_system.network.getTasks
 import com.example.control_system.ui.components.NavigationPannel
 import com.example.control_system.ui.screens.Login
@@ -42,11 +44,14 @@ class MainActivity : ComponentActivity() {
 
         var userToken: UserToken
 
-        var scenarioList = listOf<Scenario>()
+
 
 
         super.onCreate(savedInstanceState)
         setContent {
+
+            var scenarioTemp : ScenarioData? = null
+            var scenarioList = remember { mutableStateOf(scenarioTemp) }
 
             var expandedState by remember {
                 mutableStateOf(false)
@@ -94,7 +99,7 @@ class MainActivity : ComponentActivity() {
                                                 showToast()
                                             }
                                         ) {
-                                            scenarioList = it.body()!!.data.scenarios
+                                            scenarioList.value = it.body()?.data
                                         }
                                         expandedState = true
                                         navController.navigate("mainScreen")
@@ -117,10 +122,12 @@ class MainActivity : ComponentActivity() {
                                         showToast()
                                     }
                                 ) {
-                                    scenarioList = it.body()!!.data.scenarios
+                                    scenarioList.value = it.body()?.data
                                 }
                                 //TODO Заменить List на MutableList
-                                MainReportsScreen(scenarioList)
+                                if (scenarioList.value != null){
+                                    MainReportsScreen(scenarioList.value!!)
+                                }
                             }
 
                         }

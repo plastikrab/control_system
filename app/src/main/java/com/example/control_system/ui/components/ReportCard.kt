@@ -33,7 +33,8 @@ import com.example.control_system.ui.theme.MainColour
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ReportCard(
-    report : ReportAssignment
+    report : ReportAssignment,
+    onClick : (ReportAssignment) -> Unit
 ) {
 
     val provider = GoogleFont.Provider(
@@ -55,6 +56,7 @@ fun ReportCard(
         ),
         onClick = {
             Log.d("MyLog", "Clicked")
+            onClick(report)
             //TODO Добавление информации в отчёт
         }
     ) {

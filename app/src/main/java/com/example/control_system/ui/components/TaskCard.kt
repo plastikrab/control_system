@@ -37,6 +37,7 @@ import androidx.compose.ui.text.googlefonts.GoogleFont
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.control_system.R
+import com.example.control_system.data.model.scenarioModel.ReportAssignment
 import com.example.control_system.data.model.scenarioModel.Scenario
 import com.example.control_system.ui.theme.BG2Colour
 import com.example.control_system.ui.theme.MainColour
@@ -45,7 +46,8 @@ import com.example.control_system.ui.theme.TextBlack
 @ExperimentalMaterial3Api
 @Composable
 fun TaskCard(
-    scenario: Scenario
+    scenario: Scenario,
+    openBottomSheet : (ReportAssignment) -> Unit
 ) {
 
     val provider = GoogleFont.Provider(
@@ -159,7 +161,12 @@ fun TaskCard(
                             .padding(bottom = 30.dp)
                     ) {
                         items(scenario.reportsAssigned.size){
-                            ReportCard(scenario.reportsAssigned[it])
+                            ReportCard(
+                                scenario.reportsAssigned[it],
+                                onClick = {
+                                    openBottomSheet(it)
+                                }
+                            )
                         }
                     }
 
