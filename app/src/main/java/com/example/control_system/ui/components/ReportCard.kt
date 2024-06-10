@@ -25,7 +25,6 @@ import androidx.compose.ui.text.googlefonts.GoogleFont
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.control_system.R
-import com.example.control_system.data.model.scenarioModel.Report
 import com.example.control_system.data.model.scenarioModel.ReportAssignment
 import com.example.control_system.ui.theme.BG2Colour
 import com.example.control_system.ui.theme.MainColour
@@ -98,7 +97,7 @@ fun ReportCard(
                     modifier = Modifier
                         .padding(start = 8.dp)
                 )
-                //TODO Убрать хардкод и сделать стиль
+
 
 
             }

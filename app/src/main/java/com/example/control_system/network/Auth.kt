@@ -17,7 +17,8 @@ fun auth(
 ){
     val container = DefaultUsersAppContainer()
     var loginData = LoginDetailsModel(
-        LoginDetails.login, LoginDetails.password,
+        LoginDetails.login,
+        LoginDetails.password,
         LoginDetails.device
     )
     CoroutineScope(Dispatchers.IO).launch {

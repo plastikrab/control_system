@@ -7,15 +7,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
-import com.example.control_system.data.model.scenarioModel.FileBlock
 import com.example.control_system.data.model.scenarioModel.ReportAssignment
 
 
 @Composable
 fun CheckboxReport(
     report : ReportAssignment,
-    onChange : (List<Boolean>) -> Unit,
-    onChangeFileBlocks : (MutableList<FileBlock>) -> Unit
+    onChange : (List<Boolean>) -> Unit
 ) {
 
     var checkedStates = remember { mutableStateListOf(false) }
@@ -45,12 +43,5 @@ fun CheckboxReport(
 
         }
     }
-
-    TextBlock(
-        blocks = report.report.fileBlocks.toMutableList(),
-        onChangeFileBlocks = {
-            onChangeFileBlocks(it)
-        }
-    )
 
 }

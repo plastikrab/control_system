@@ -14,15 +14,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.control_system.data.model.scenarioModel.FileBlock
 import com.example.control_system.data.model.scenarioModel.ReportAssignment
 
 
 @Composable
 fun RadioButtonReport(
     report : ReportAssignment,
-    selected : (String) -> Unit,
-    onChangeFileBlocks : (MutableList<FileBlock>) -> Unit
+    selected : (String) -> Unit
 ) {
 
     if (report.report.choiceReports != null){
@@ -71,13 +69,6 @@ fun RadioButtonReport(
     else{
         Log.d("MyLog","Error")
     }
-
-    TextBlock(
-        blocks = report.report.fileBlocks.toMutableList(),
-        onChangeFileBlocks = {
-            onChangeFileBlocks(it)
-        }
-    )
 
 }
 

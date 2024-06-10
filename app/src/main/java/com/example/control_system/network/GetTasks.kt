@@ -2,8 +2,8 @@ package com.example.control_system.network
 
 import android.util.Log
 import com.example.control_system.data.model.LectureRequestData
-import com.example.control_system.data.model.scenarioModel.ServerResponse
 import com.example.control_system.data.model.UserToken
+import com.example.control_system.data.model.scenarioModel.ServerResponse
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

@@ -1,9 +1,7 @@
 package com.example.control_system.ui.components
 
+import android.util.Log
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Button
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -39,44 +37,36 @@ fun TextBlock(
     val interFamily = FontFamily(Font(googleFont = interFont, fontProvider = provider))
 
 
+    if (blocks.size == 0){
+        blocks.add(FileBlock("1","",1))
+        Log.d("MyLog", "Null List")
+    }
 
     var blocksList = mutableStateListOf<FileBlock>()
 
     blocksList = blocks.toMutableStateList()
 
 
-    var i = 0
-    LazyColumn(modifier = Modifier.fillMaxWidth()){
-        items(blocksList){block ->
 
-            var fieldValue by remember {
-                mutableStateOf(block.text)
-            }
-
-            TextField(
-                value = fieldValue,
-                onValueChange = {
-                    fieldValue = it
-                    block.text = fieldValue
-                    onChangeFileBlocks(blocksList)
-                },
-                modifier = Modifier
-                    .fillMaxWidth(),
-                textStyle = TextStyle(
-                    fontSize = 21.sp,
-                    fontFamily = interFamily,
-                    fontWeight = FontWeight(300),
-                    color = BordersColour
-                )
-
-            )
-        }
+    var fieldValue by remember {
+        mutableStateOf(blocksList[0].text)
     }
 
-    Button(onClick = {
-        blocksList.add(i, FileBlock(i.toString(), "", null))
-        i++
-    }) {
+    TextField(
+        value = fieldValue,
+        onValueChange = {
+            fieldValue = it
+            blocksList[0].text = fieldValue
+            onChangeFileBlocks(blocksList)
+        },
+        modifier = Modifier
+            .fillMaxWidth(),
+        textStyle = TextStyle(
+            fontSize = 21.sp,
+            fontFamily = interFamily,
+            fontWeight = FontWeight(300),
+            color = BordersColour
+        )
 
-    }
+    )
 }

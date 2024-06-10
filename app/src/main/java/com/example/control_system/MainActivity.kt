@@ -11,21 +11,20 @@ import androidx.annotation.RequiresExtension
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.auth0.android.jwt.JWT
 import com.example.control_system.data.model.RoleSettings
-import com.example.control_system.data.model.scenarioModel.Scenario
 import com.example.control_system.data.model.UserToken
 import com.example.control_system.data.model.scenarioModel.ScenarioData
-import com.example.control_system.data.model.scenarioModel.ServerResponse
+import com.example.control_system.network.TaskStatus
 import com.example.control_system.network.getTasks
 import com.example.control_system.ui.components.NavigationPannel
 import com.example.control_system.ui.screens.Login
@@ -53,17 +52,17 @@ class MainActivity : ComponentActivity() {
             var scenarioTemp : ScenarioData? = null
             var scenarioList = remember { mutableStateOf(scenarioTemp) }
 
-            var expandedState by remember {
+            var bottomPanelState by remember {
                 mutableStateOf(false)
             }
 
             if (accessToken == null){
                 startScreen.value = "loginScreen"
-                expandedState = false
+                bottomPanelState = false
             }
             if (accessToken != null){
                 startScreen.value = "mainScreen"
-                expandedState = true
+                bottomPanelState = true
                 Log.d("MyLog", accessToken!!)
 
             }
@@ -96,16 +95,16 @@ class MainActivity : ComponentActivity() {
                                         getTasks(
                                             userToken,
                                             onConnectionError = {
-                                                showToast()
+                                                showToast("Проверьте подключение к интернету")
                                             }
                                         ) {
                                             scenarioList.value = it.body()?.data
                                         }
-                                        expandedState = true
+                                        bottomPanelState = true
                                         navController.navigate("mainScreen")
                                     },
                                     onConnectionError = {
-                                        showToast()
+                                        showToast("Проверьте подключение к интернету")
                                     })
                             }
                         }
@@ -119,14 +118,19 @@ class MainActivity : ComponentActivity() {
                                 getTasks(
                                     userToken,
                                     onConnectionError = {
-                                        showToast()
+                                        showToast("Проверьте подключение к интернету")
                                     }
                                 ) {
                                     scenarioList.value = it.body()?.data
                                 }
                                 //TODO Заменить List на MutableList
                                 if (scenarioList.value != null){
-                                    MainReportsScreen(scenarioList.value!!)
+                                    MainReportsScreen(
+                                        scenarioList.value!!,
+                                        startScenario = {
+                                            TaskStatus(it)
+                                        }
+                                    )
                                 }
                             }
 
@@ -136,7 +140,7 @@ class MainActivity : ComponentActivity() {
                             MainProfileScreen()
                         }
                     }
-                    if (expandedState){
+                    if (bottomPanelState){
                         NavigationPannel(
                             tasksNavigate = {
                                 navController.navigate("mainScreen")
@@ -151,10 +155,10 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    private fun showToast(){
+    private fun showToast(text : String){
         val toast = Toast.makeText(
             this,
-            "Проверьте подключение к интернету",
+            text,
             Toast.LENGTH_LONG
         )
         toast.show()

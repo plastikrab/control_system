@@ -7,5 +7,6 @@ data class ReportAssignment(
     val fileBlocksAssigned: List<FileBlockAssignment>,
     val createdAt: String,
     val updatedAt: String,
+    var doneStatus: Boolean,
     val __v: Int
 )

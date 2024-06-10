@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.control_system.data.model.scenarioModel.ReportAssignment
+import com.example.control_system.data.model.scenarioModel.Scenario
 import com.example.control_system.data.model.scenarioModel.ScenarioData
 import com.example.control_system.ui.components.CheckboxReport
 import com.example.control_system.ui.components.RadioButtonReport
@@ -28,7 +29,8 @@ import com.example.control_system.ui.components.TextBlock
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainReportsScreen(
-    scenarioList: ScenarioData
+    scenarioList: ScenarioData,
+    startScenario : (Scenario) -> Unit
 ) {
     val sheetState = rememberModalBottomSheetState()
     var showBottomSheet by remember { mutableStateOf(false) }
@@ -45,6 +47,12 @@ fun MainReportsScreen(
                 openBottomSheet = {
                     reportData = it
                     showBottomSheet = true
+                },
+                startScenario = {
+                    startScenario(it)
+                },
+                finishScenario = {
+
                 }
             )
         }
@@ -80,15 +88,13 @@ fun MainReportsScreen(
                     selected = {
                         reportData!!.report.choiceReports.forEach{item ->
                             item.answer = item.text == it
+                            reportData!!.doneStatus = true
                         }
                         reportData!!.report.choiceReports.forEach{item ->
                             Log.d("MyLog", item.text + " " + item.answer)
                         }
-                    },
-                    onChangeFileBlocks = {
-                        reportData!!.report.fileBlocks = it
                     }
-                    )
+                )
             }
 
             if (reportData?.report?.type == "choiceReportsMany"){
@@ -101,9 +107,7 @@ fun MainReportsScreen(
                             item.answer = it[i]
                             i++
                         }
-                    },
-                    onChangeFileBlocks = {
-                        reportData!!.report.fileBlocks = it
+                        reportData!!.doneStatus = true
                     }
                 )
             }
@@ -113,6 +117,7 @@ fun MainReportsScreen(
                     blocks = reportData!!.report.fileBlocks.toMutableList(),
                     onChangeFileBlocks = {
                         reportData!!.report.fileBlocks = it
+                        reportData!!.doneStatus = true
                     }
 
                 )

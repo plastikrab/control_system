@@ -47,7 +47,9 @@ import com.example.control_system.ui.theme.TextBlack
 @Composable
 fun TaskCard(
     scenario: Scenario,
-    openBottomSheet : (ReportAssignment) -> Unit
+    openBottomSheet : (ReportAssignment) -> Unit,
+    startScenario : (Scenario) -> Unit,
+    finishScenario : (Scenario) -> Unit
 ) {
 
     val provider = GoogleFont.Provider(
@@ -65,6 +67,14 @@ fun TaskCard(
     val rotationState by animateFloatAsState(
         targetValue = if (expandedState) 180f else 0f
     )
+
+    var buttonName by remember {
+        mutableStateOf("")
+    }
+    when(scenario.status){
+        "ToDo" -> buttonName = "Начать"
+        "inProgress" -> buttonName = "Закончить"
+    }
 
 
     Card(
@@ -178,11 +188,19 @@ fun TaskCard(
                         ),
                         shape = RoundedCornerShape(15.dp),
                         onClick = {
-                    //TODO Отпарвка отчёта
+                            if (scenario.status == "ToDo"){
+                                scenario.status = "inProgress"
+                                buttonName = "Закончить"
+                                startScenario(scenario)
+                            }
+                            if (scenario.status == "inProgress"){
+
+                            }
+
                     }
                     ) {
                         Text(
-                            text = "Завершить",
+                            text = buttonName,
                             color = BG2Colour,
                             style = TextStyle(
                                 fontSize = 21.sp,
