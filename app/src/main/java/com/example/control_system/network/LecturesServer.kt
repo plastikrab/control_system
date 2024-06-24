@@ -3,7 +3,6 @@ package com.example.control_system.network
 import android.util.Log
 import com.example.control_system.data.model.LectureRequestData
 import com.example.control_system.data.model.UserToken
-import com.example.control_system.data.model.scenarioModel.SavedScenarios
 import com.example.control_system.data.model.scenarioModel.ServerResponse
 import com.example.control_system.data.model.scenarioModel.UpdateChoiceReports
 import kotlinx.coroutines.CoroutineScope
@@ -37,20 +36,6 @@ object LecturesServer {
                 if (tasksList.isSuccessful) {
                     Log.d("MyLog", "Success")
                     CoroutineScope(Dispatchers.Main).launch {
-                        tasksList.body()!!.data.scenarios.forEach {
-                            if (it.status == "inProgress"){
-                                SavedScenarios.scenarios.forEach { item->
-                                    if (it._id != item._id){
-                                        SavedScenarios.scenarios.add(it)
-                                        Log.d("MyLog", "ID не совпали, добавляем сценарий")
-                                    }
-                                }
-                                if (SavedScenarios.scenarios.isEmpty()){
-                                    Log.d("MyLog", "Список пустой, добавляем сценарий")
-                                    SavedScenarios.scenarios.add(it)
-                                }
-                            }
-                        }
                         confirmed(tasksList)
                     }
                 }

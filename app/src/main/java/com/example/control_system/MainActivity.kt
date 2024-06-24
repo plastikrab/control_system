@@ -24,7 +24,6 @@ import com.auth0.android.jwt.JWT
 import com.example.control_system.data.model.RoleSettings
 import com.example.control_system.data.model.UserToken
 import com.example.control_system.data.model.scenarioModel.SavedScenarios
-import com.example.control_system.data.model.scenarioModel.Scenario
 import com.example.control_system.data.model.scenarioModel.ScenarioData
 import com.example.control_system.network.LecturesServer
 import com.example.control_system.network.TaskStatus
@@ -128,21 +127,6 @@ class MainActivity : ComponentActivity() {
                                     },
                                     confirmed = {
                                         scenarioList.value = it.body()?.data
-                                        Log.d("MyLog", "Данные получены")
-                                            scenarioList.value!!.scenarios.forEach { scenario ->
-                                                Log.d("MyLog", "Проход по списку сценариев")
-                                                SavedScenarios.scenarios.forEach { savedScenario->
-                                                    Log.d("MyLog", "Проход по списку сохранённых сценариев")
-                                                    if (savedScenario._id == scenario._id){
-                                                        Log.d("MyLog", "Добавление сценария")
-                                                        scenarioList.value!!.scenarios[scenarioList.value!!.scenarios.indexOf(scenario)] = savedScenario
-                                                    }
-                                            }
-                                        }
-                                        SavedScenarios.saveScenarios()
-                                        SavedScenarios.getScenarios()
-                                        var asd = Paper.book().read<MutableList<Scenario>>("scenarios")
-                                        Log.d("MyLog", asd!![0]._id)
                                     }
                                 )
                                 if (scenarioList.value != null){
