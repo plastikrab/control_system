@@ -22,3 +22,5 @@ val BordersColour = Color(0xFFBEC2C3)
 val ErrorColour = Color(0xFFB00020)
 
 val TextBlack = Color(0xFF000000)
+
+val RadioButtonColour = Color(0xFFDCC3C3)

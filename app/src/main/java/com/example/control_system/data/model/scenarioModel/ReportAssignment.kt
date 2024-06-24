@@ -1,5 +1,8 @@
 package com.example.control_system.data.model.scenarioModel
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class ReportAssignment(
     val _id: String,
     val report: Report,

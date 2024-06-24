@@ -23,26 +23,31 @@ import androidx.navigation.compose.rememberNavController
 import com.auth0.android.jwt.JWT
 import com.example.control_system.data.model.RoleSettings
 import com.example.control_system.data.model.UserToken
+import com.example.control_system.data.model.scenarioModel.SavedScenarios
+import com.example.control_system.data.model.scenarioModel.Scenario
 import com.example.control_system.data.model.scenarioModel.ScenarioData
+import com.example.control_system.network.LecturesServer
 import com.example.control_system.network.TaskStatus
-import com.example.control_system.network.getTasks
 import com.example.control_system.ui.components.NavigationPannel
 import com.example.control_system.ui.screens.Login
 import com.example.control_system.ui.screens.MainProfileScreen
 import com.example.control_system.ui.screens.MainReportsScreen
 import com.example.control_system.ui.theme.Control_systemTheme
+import io.paperdb.Paper
 
 @OptIn(ExperimentalMaterial3Api::class)
 class MainActivity : ComponentActivity() {
     @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
     override fun onCreate(savedInstanceState: Bundle?) {
-        val sharedPreferences = getSharedPreferences("tokens", Context.MODE_PRIVATE)
-        val editor = sharedPreferences.edit()
+        val savedTokens = getSharedPreferences("tokens", Context.MODE_PRIVATE)
+        val tokensEditor = savedTokens.edit()
         var startScreen = mutableStateOf<String>("loginScreen")
-        var accessToken = sharedPreferences.getString("accessToken", null)
+        var accessToken = savedTokens.getString("accessToken", null)
+
 
         var userToken: UserToken
 
+        Paper.init(this)
 
 
 
@@ -51,6 +56,7 @@ class MainActivity : ComponentActivity() {
 
             var scenarioTemp : ScenarioData? = null
             var scenarioList = remember { mutableStateOf(scenarioTemp) }
+
 
             var bottomPanelState by remember {
                 mutableStateOf(false)
@@ -64,7 +70,6 @@ class MainActivity : ComponentActivity() {
                 startScreen.value = "mainScreen"
                 bottomPanelState = true
                 Log.d("MyLog", accessToken!!)
-
             }
 
             val navController = rememberNavController()
@@ -86,13 +91,13 @@ class MainActivity : ComponentActivity() {
                             ) {
                                 Login(
                                     confirmed = {
-                                        editor.apply{
+                                        tokensEditor.apply{
                                             putString("accessToken", it.body()?.accessToken)
                                             putString("refreshToken", it.body()?.refreshToken)
                                         }.apply()
                                         accessToken = it.body()?.accessToken
                                         userToken = jwtDecoder(accessToken!!)!!
-                                        getTasks(
+                                        LecturesServer.getTasks(
                                             userToken,
                                             onConnectionError = {
                                                 showToast("Проверьте подключение к интернету")
@@ -110,25 +115,47 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable("mainScreen"){
+
                             Column(
                                 modifier = Modifier
                                     .fillMaxSize()
                             ) {
                                 userToken = jwtDecoder(accessToken!!)!!
-                                getTasks(
+                                LecturesServer.getTasks(
                                     userToken,
                                     onConnectionError = {
                                         showToast("Проверьте подключение к интернету")
+                                    },
+                                    confirmed = {
+                                        scenarioList.value = it.body()?.data
+                                        Log.d("MyLog", "Данные получены")
+                                            scenarioList.value!!.scenarios.forEach { scenario ->
+                                                Log.d("MyLog", "Проход по списку сценариев")
+                                                SavedScenarios.scenarios.forEach { savedScenario->
+                                                    Log.d("MyLog", "Проход по списку сохранённых сценариев")
+                                                    if (savedScenario._id == scenario._id){
+                                                        Log.d("MyLog", "Добавление сценария")
+                                                        scenarioList.value!!.scenarios[scenarioList.value!!.scenarios.indexOf(scenario)] = savedScenario
+                                                    }
+                                            }
+                                        }
+                                        SavedScenarios.saveScenarios()
+                                        SavedScenarios.getScenarios()
+                                        var asd = Paper.book().read<MutableList<Scenario>>("scenarios")
+                                        Log.d("MyLog", asd!![0]._id)
                                     }
-                                ) {
-                                    scenarioList.value = it.body()?.data
-                                }
-                                //TODO Заменить List на MutableList
+                                )
                                 if (scenarioList.value != null){
                                     MainReportsScreen(
                                         scenarioList.value!!,
                                         startScenario = {
                                             TaskStatus(it)
+                                        },
+                                        onConnectionError = {
+                                            showToast("Проверьте подключение к интернету")
+                                        },
+                                        saveScenario = {
+
                                         }
                                     )
                                 }
@@ -182,5 +209,10 @@ class MainActivity : ComponentActivity() {
             exp = exp
         )
 
+    }
+
+    override fun onPause() {
+        super.onPause()
+        SavedScenarios.saveScenarios()
     }
 }

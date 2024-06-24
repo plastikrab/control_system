@@ -4,7 +4,14 @@ plugins {
 
     //kapt
     id("kotlin-kapt")
+
+    alias(libs.plugins.compose.compiler)
+
+    id ("org.jetbrains.kotlin.plugin.serialization")
+
 }
+
+
 
 android {
     namespace = "com.example.control_system"
@@ -55,54 +62,59 @@ android {
     }
 }
 
+
 dependencies {
 
-    implementation("androidx.core:core-ktx:1.10.1")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
-    implementation("androidx.activity:activity-compose:1.7.0")
-    implementation(platform("androidx.compose:compose-bom:2023.08.00"))
-    implementation("androidx.compose.ui:ui")
-    implementation("androidx.compose.ui:ui-graphics")
-    implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("androidx.compose.material3:material3")
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-    androidTestImplementation(platform("androidx.compose:compose-bom:2023.08.00"))
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
-    debugImplementation("androidx.compose.ui:ui-tooling")
-    debugImplementation("androidx.compose.ui:ui-test-manifest")
+    implementation(libs.androidx.ktx)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.activity.compose)
+    implementation(platform(libs.compose.bom))
+    implementation(libs.androidx.ui)
+    implementation(libs.androidx.ui.graphics)
+    implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.androidx.material3)
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(platform(libs.compose.bom))
+    androidTestImplementation(libs.androidx.ui.test.junit4)
+    debugImplementation(libs.androidx.ui.tooling)
+    debugImplementation(libs.androidx.ui.test.manifest)
 
     //Room
-    implementation("androidx.room:room-ktx:2.6.1")
-    kapt("androidx.room:room-compiler:2.6.1")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
+    implementation(libs.androidx.room.ktx)
+    kapt(libs.androidx.room.compiler)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
 
     //Navigation
-    val nav_version = "2.5.3"
-    implementation("androidx.navigation:navigation-compose:$nav_version")
+    implementation(libs.androidx.navigation.compose)
 
     //Google fonts
-    implementation("androidx.compose.ui:ui-text-google-fonts:1.6.7")
+    implementation(libs.androidx.ui.text.google.fonts)
 
     //Retrofit
-    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation (libs.retrofit2.retrofit)
+    implementation (libs.retrofit2.converter.gson)
 
     //Corutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.2")
-    implementation ("org.jetbrains.kotlin:kotlin-stdlib")
-    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.2")
+    implementation(libs.kotlinx.coroutines.android)
+    implementation (libs.kotlin.stdlib)
 
     //Retrofit
-    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation (libs.retrofit2.retrofit)
+    implementation (libs.retrofit2.converter.gson)
 
-    implementation ("com.squareup.okhttp3:okhttp:4.9.3")
+    implementation (libs.okhttp)
 
     //JWT decoder
-    implementation ("com.auth0.android:jwtdecode:2.0.2")
+    implementation (libs.jwtdecode)
 
-    
+    implementation(libs.kotlinx.serialization.json)
+
+    //PaperDB
+    implementation (libs.paperdb)
 
 }
+
+
+

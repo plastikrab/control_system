@@ -44,6 +44,11 @@ fun ReportCard(
     val interFont = GoogleFont("Inter")
     val interFamily = FontFamily(Font(googleFont = interFont, fontProvider = provider))
 
+    var image = R.drawable.plus
+    if (report.doneStatus){
+        image = R.drawable.done
+    }
+
 
     Card(
         modifier = Modifier
@@ -74,7 +79,7 @@ fun ReportCard(
                     text = report.report.title,
                     color = BG2Colour,
                     style = TextStyle(
-                        fontSize = 11.sp,
+                        fontSize = 15.sp,
                         fontFamily = interFamily,
                         fontWeight = FontWeight(650),
                         color = BG2Colour
@@ -89,7 +94,7 @@ fun ReportCard(
                     text = report.report.description,
                     color = BG2Colour,
                     style = TextStyle(
-                        fontSize = 8.sp,
+                        fontSize = 10.sp,
                         fontFamily = interFamily,
                         fontWeight = FontWeight(350),
                         color = BG2Colour
@@ -102,7 +107,7 @@ fun ReportCard(
 
             }
             Image(
-                painter = painterResource(id = R.drawable.plus),
+                painter = painterResource(id = image),
                 contentDescription = "Plus",
                 modifier = Modifier
                     .size(53.dp)
