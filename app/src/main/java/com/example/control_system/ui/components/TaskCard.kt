@@ -36,6 +36,7 @@ import androidx.compose.ui.text.googlefonts.Font
 import androidx.compose.ui.text.googlefonts.GoogleFont
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.control_system.MainActivity
 import com.example.control_system.R
 import com.example.control_system.data.model.scenarioModel.ReportAssignment
 import com.example.control_system.data.model.scenarioModel.Scenario
@@ -49,7 +50,8 @@ fun TaskCard(
     scenario: Scenario,
     openBottomSheet : (ReportAssignment) -> Unit,
     startScenario : (Scenario) -> Unit,
-    finishScenario : (Scenario) -> Unit
+    finishScenario : (Scenario) -> Unit,
+    showToast : (String) -> Unit
 ) {
 
     val provider = GoogleFont.Provider(
@@ -71,9 +73,18 @@ fun TaskCard(
     var buttonName by remember {
         mutableStateOf("")
     }
+    var statusName by remember {
+        mutableStateOf("")
+    }
     when(scenario.status){
-        "ToDo" -> buttonName = "Начать"
-        "inProgress" -> buttonName = "Закончить"
+        "ToDo" -> {
+            buttonName = "Начать"
+            statusName = "Ожидание начала"
+        }
+        "inProgress" -> {
+            buttonName = "Закончить"
+            statusName = "В процессе"
+        }
     }
 
 
@@ -144,7 +155,7 @@ fun TaskCard(
                 }
                 Column {
                     Text(
-                        text = "Ожидание выполнения",
+                        text = statusName,
                         modifier = Modifier
                             .padding(end = 10.dp),
                         style = TextStyle(
@@ -174,7 +185,12 @@ fun TaskCard(
                             ReportCard(
                                 scenario.reportsAssigned[it],
                                 onClick = {
-                                    openBottomSheet(it)
+                                    if (scenario.status == "inProgress"){
+                                        openBottomSheet(it)
+                                    }else{
+                                        showToast("Сначала начините сценарий")
+                                    }
+
                                 }
                             )
                         }
@@ -191,6 +207,7 @@ fun TaskCard(
                             if (scenario.status == "ToDo"){
                                 scenario.status = "inProgress"
                                 buttonName = "Закончить"
+                                statusName = "В процессе"
                                 startScenario(scenario)
                             }
                             if (scenario.status == "inProgress"){

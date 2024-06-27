@@ -140,6 +140,9 @@ class MainActivity : ComponentActivity() {
                                         },
                                         saveScenario = {
 
+                                        },
+                                        showToast = {
+                                            showToast(it)
                                         }
                                     )
                                 }

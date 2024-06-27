@@ -52,7 +52,8 @@ fun MainReportsScreen(
     scenarioList: ScenarioData,
     startScenario : (Scenario) -> Unit,
     onConnectionError: () -> Unit,
-    saveScenario : (Scenario) -> Unit
+    saveScenario : (Scenario) -> Unit,
+    showToast : (String) -> Unit
 ) {
     val provider = GoogleFont.Provider(
         providerAuthority = "com.google.android.gms.fonts",
@@ -87,6 +88,9 @@ fun MainReportsScreen(
                 },
                 finishScenario = {
 
+                },
+                showToast = {
+                    showToast(it)
                 }
             )
         }
