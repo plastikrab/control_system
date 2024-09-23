@@ -92,10 +92,6 @@ dependencies {
     //Google fonts
     implementation(libs.androidx.ui.text.google.fonts)
 
-    //Retrofit
-    implementation (libs.retrofit2.retrofit)
-    implementation (libs.retrofit2.converter.gson)
-
     //Corutines
     implementation(libs.kotlinx.coroutines.android)
     implementation (libs.kotlin.stdlib)
@@ -108,7 +104,6 @@ dependencies {
 
     //JWT decoder
     implementation (libs.jwtdecode)
-
     implementation(libs.kotlinx.serialization.json)
 
     //PaperDB

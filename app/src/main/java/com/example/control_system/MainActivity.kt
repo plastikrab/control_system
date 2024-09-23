@@ -21,17 +21,14 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.auth0.android.jwt.JWT
-import com.example.control_system.data.model.RoleSettings
-import com.example.control_system.data.model.UserToken
-import com.example.control_system.data.model.scenarioModel.SavedScenarios
-import com.example.control_system.data.model.scenarioModel.ScenarioData
-import com.example.control_system.network.LecturesServer
-import com.example.control_system.network.TaskStatus
-import com.example.control_system.ui.components.NavigationPannel
-import com.example.control_system.ui.screens.Login
-import com.example.control_system.ui.screens.MainProfileScreen
-import com.example.control_system.ui.screens.MainReportsScreen
-import com.example.control_system.ui.theme.Control_systemTheme
+import com.example.control_system.data.models.scenarioModel.ScenarioData
+import com.example.control_system.model.network.LecturesServ
+import com.example.control_system.model.network.TaskStatus
+import com.example.control_system.view.components.NavigationPannel
+import com.example.control_system.view.screens.Login
+import com.example.control_system.view.screens.MainProfileScreen
+import com.example.control_system.view.screens.MainReportsScreen
+import com.example.control_system.view.theme.Control_systemTheme
 import io.paperdb.Paper
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -44,7 +41,7 @@ class MainActivity : ComponentActivity() {
         var accessToken = savedTokens.getString("accessToken", null)
 
 
-        var userToken: UserToken
+        var userToken: com.example.control_system.model.data.models.UserToken
 
         Paper.init(this)
 
@@ -96,7 +93,7 @@ class MainActivity : ComponentActivity() {
                                         }.apply()
                                         accessToken = it.body()?.accessToken
                                         userToken = jwtDecoder(accessToken!!)!!
-                                        LecturesServer.getTasks(
+                                        LecturesServ.getTasks(
                                             userToken,
                                             onConnectionError = {
                                                 showToast("Проверьте подключение к интернету")
@@ -120,7 +117,7 @@ class MainActivity : ComponentActivity() {
                                     .fillMaxSize()
                             ) {
                                 userToken = jwtDecoder(accessToken!!)!!
-                                LecturesServer.getTasks(
+                                LecturesServ.getTasks(
                                     userToken,
                                     onConnectionError = {
                                         showToast("Проверьте подключение к интернету")
@@ -131,7 +128,7 @@ class MainActivity : ComponentActivity() {
                                 )
                                 if (scenarioList.value != null){
                                     MainReportsScreen(
-                                        scenarioList.value!!,
+                                        scenarioList = scenarioList.value!!,
                                         startScenario = {
                                             TaskStatus(it)
                                         },
@@ -179,16 +176,16 @@ class MainActivity : ComponentActivity() {
 
     }
 
-    private fun jwtDecoder(token: String): UserToken? {
+    private fun jwtDecoder(token: String): com.example.control_system.model.data.models.UserToken? {
         val jwt = JWT(token)
 
         val login = jwt.getClaim("login").asString() ?: return null
-        val roleSettings = jwt.getClaim("roleSettings").asObject(RoleSettings::class.java)  ?: return null
+        val roleSettings = jwt.getClaim("roleSettings").asObject(com.example.control_system.model.data.models.RoleSettings::class.java)  ?: return null
         val sub = jwt.subject ?: return null
         val iat = jwt.issuedAt ?: return null
         val exp = jwt.expiresAt ?: return null
 
-        return UserToken(
+        return com.example.control_system.model.data.models.UserToken(
             login = login,
             roleSettings = roleSettings,
             sub = sub,
@@ -200,6 +197,6 @@ class MainActivity : ComponentActivity() {
 
     override fun onPause() {
         super.onPause()
-        SavedScenarios.saveScenarios()
+        com.example.control_system.model.data.models.scenarioModel.SavedScenarios.saveScenarios()
     }
 }
